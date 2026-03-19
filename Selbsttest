@@ -1,113 +1,15 @@
 <!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<title>Selbsttest Gewichtsregulation</title>
-<p id="test">TEST</p>
-<style>
-body {
-  font-family: Arial;
-  max-width: 600px;
-  margin: 40px auto;
-}
-button {
-  display: block;
-  margin: 10px 0;
-  padding: 10px;
-  width: 100%;
-}
-</style>
-
-</head>
-
+<html>
 <body>
 
-<h1>Selbsttest Gewichtsregulation</h1>
+<h1>Test</h1>
 
 <div id="quiz"></div>
 
-<div id="result"></div>
-
 <script>
 
-let currentQuestion = 0;
+document.getElementById("quiz").innerHTML = "Frage erscheint";
 
-let score = {
-  ernaehrung: 0,
-  bewegung: 0,
-  stoffwechsel: 0
-};
-
-const questions = [
-
-{
-  text: "Wo siehst du den größten Hebel?",
-  answers: [
-    { text: "Ernährung", type: "ernaehrung" },
-    { text: "Bewegung", type: "bewegung" },
-    { text: "Stoffwechsel", type: "stoffwechsel" }
-  ]
-},
-
-{
-  text: "Was fällt dir am schwersten?",
-  answers: [
-    { text: "Ernährung steuern", type: "ernaehrung" },
-    { text: "Dranbleiben an Bewegung", type: "bewegung" },
-    { text: "Energie / Stoffwechsel", type: "stoffwechsel" }
-  ]
-}
-
-];
-
-function showQuestion() {
-
-  const quiz = document.getElementById("quiz");
-  quiz.innerHTML = "";
-
-  if (currentQuestion >= questions.length) {
-    showResult();
-    return;
-  }
-
-  const q = questions[currentQuestion];
-
-  const title = document.createElement("h2");
-  title.innerText = q.text;
-  quiz.appendChild(title);
-
-  q.answers.forEach(answer => {
-    const btn = document.createElement("button");
-    btn.innerText = answer.text;
-    btn.onclick = function() {
-      score[answer.type]++;
-      currentQuestion++;
-      showQuestion();
-    };
-    quiz.appendChild(btn);
-  });
-
-}
-
-function showResult() {
-
-  let result = "Ernährung";
-
-  if (score.bewegung > score.ernaehrung && score.bewegung > score.stoffwechsel) {
-    result = "Bewegung";
-  }
-
-  if (score.stoffwechsel > score.ernaehrung && score.stoffwechsel > score.bewegung) {
-    result = "Stoffwechsel";
-  }
-
-  document.getElementById("quiz").innerHTML = "";
-  document.getElementById("result").innerText = "Dein Ergebnis: " + result;
-
-}
-
-showQuestion();
-document.getElementById("test").innerText = "Script läuft";
 </script>
 
 </body>
