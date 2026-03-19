@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Selbsttest Gewichtsregulation</title>
-
+<p id="test">TEST</p>
 <style>
 body {
   font-family: Arial;
@@ -107,7 +107,7 @@ function showResult() {
 }
 
 showQuestion();
-
+document.getElementById("test").innerText = "Script läuft";
 </script>
 
 </body>
