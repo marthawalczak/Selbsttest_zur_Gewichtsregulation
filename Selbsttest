@@ -2,26 +2,22 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Gewichts-Selbsttest</title>
+<title>Selbsttest Gewichtsregulation</title>
+
 <style>
 body {
   font-family: Arial;
   max-width: 600px;
   margin: 40px auto;
-  padding: 20px;
 }
 button {
   display: block;
   margin: 10px 0;
   padding: 10px;
   width: 100%;
-  cursor: pointer;
-}
-#result {
-  margin-top: 30px;
-  font-weight: bold;
 }
 </style>
+
 </head>
 
 <body>
@@ -39,18 +35,13 @@ let currentQuestion = 0;
 let score = {
   ernaehrung: 0,
   bewegung: 0,
-  stoffwechsel: 0,
-  kompensation: 0,
-  konditionierung: 0,
-  hypnose: 0,
-  gespraech: 0,
-  meditation: 0
+  stoffwechsel: 0
 };
 
 const questions = [
 
 {
-  text: "Wo siehst du den größten Hebel für dein Gewicht?",
+  text: "Wo siehst du den größten Hebel?",
   answers: [
     { text: "Ernährung", type: "ernaehrung" },
     { text: "Bewegung", type: "bewegung" },
@@ -59,26 +50,18 @@ const questions = [
 },
 
 {
-  text: "Was beeinflusst dein Verhalten am meisten?",
+  text: "Was fällt dir am schwersten?",
   answers: [
-    { text: "Gefühle / Stress", type: "kompensation" },
-    { text: "Gewohnheiten", type: "konditionierung" },
-    { text: "Beides", type: "kompensation" }
-  ]
-},
-
-{
-  text: "Wie gehst du mit deinem Anliegen um?",
-  answers: [
-    { text: "Gefühlsbasiert", type: "hypnose" },
-    { text: "Gedanklich", type: "gespraech" },
-    { text: "Beobachtend", type: "meditation" }
+    { text: "Ernährung steuern", type: "ernaehrung" },
+    { text: "Dranbleiben an Bewegung", type: "bewegung" },
+    { text: "Energie / Stoffwechsel", type: "stoffwechsel" }
   ]
 }
 
 ];
 
 function showQuestion() {
+
   const quiz = document.getElementById("quiz");
   quiz.innerHTML = "";
 
@@ -96,46 +79,31 @@ function showQuestion() {
   q.answers.forEach(answer => {
     const btn = document.createElement("button");
     btn.innerText = answer.text;
-    btn.onclick = () => selectAnswer(answer.type);
+    btn.onclick = function() {
+      score[answer.type]++;
+      currentQuestion++;
+      showQuestion();
+    };
     quiz.appendChild(btn);
   });
-}
 
-function selectAnswer(type) {
-  score[type]++;
-  currentQuestion++;
-  showQuestion();
-}
-
-function getMaxCategory(categories) {
-  return Object.keys(categories).reduce((a, b) =>
-    categories[a] > categories[b] ? a : b
-  );
 }
 
 function showResult() {
 
-  const ansatz = getMaxCategory({
-    ernaehrung: score.ernaehrung,
-    bewegung: score.bewegung,
-    stoffwechsel: score.stoffwechsel
-  });
+  let result = "Ernährung";
 
-  const umgang = getMaxCategory({
-    kompensation: score.kompensation,
-    konditionierung: score.konditionierung
-  });
+  if (score.bewegung > score.ernaehrung && score.bewegung > score.stoffwechsel) {
+    result = "Bewegung";
+  }
 
-  const bewusstsein = getMaxCategory({
-    hypnose: score.hypnose,
-    gespraech: score.gespraech,
-    meditation: score.meditation
-  });
+  if (score.stoffwechsel > score.ernaehrung && score.stoffwechsel > score.bewegung) {
+    result = "Stoffwechsel";
+  }
 
   document.getElementById("quiz").innerHTML = "";
-  document.getElementById("result").innerText =
-    "Dein Ergebnis:\n" +
-    ansatz + " → " + umgang + " → " + bewusstsein;
+  document.getElementById("result").innerText = "Dein Ergebnis: " + result;
+
 }
 
 showQuestion();
